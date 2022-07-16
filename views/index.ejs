@@ -1,0 +1,33 @@
+ <!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Names and their branches app</title>
+    </head>
+    <body>
+        <h1>May Node and Express be with you.</h1>
+        <form action="/branches" method="POST">
+            <input type="text" placeholder="name" name="name" />
+            <input type="text" placeholder="branch" name="branch" />
+            <button type="submit">Submit</button>
+        </form>
+        <h2> branches </h2>
+
+        <ul class="branches">
+            <% for(var i = 0; i < branches.length; i++){ %>
+                <li class="branch">
+                    <span><%= branches[i].name %></span>:
+                    <span><%= branches[i].branch %></span>
+                </li>
+           <% } %>
+        </ul>
+
+        <div>
+            <h2>Darth Vadar invades!</h2>
+            <p>Replace the first entry of the given student</p>
+            <button id="update-button">Replace the key-value(name-branch) pair</button>
+        </div>
+        <script src="/main.js"></script>
+    </body>
+</html>

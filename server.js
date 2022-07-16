@@ -3,23 +3,48 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
-//this line is in note
-MongoClient.connect(connectionString, (err, client) => {
-    if(err) return console.error(err);
-    console.log("Connected to Database");
+
+//this line is in note.
+
+MongoClient.connect(connectionString, { useUnifiedTopology: true
 })
-
-
+.then(client => {
+console.log('Connected to Database');
+const db = client.db('branches-and-names');
+const branchesCollection = db.collection("branches");
+app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'))
+app.use(bodyParser.json())
+
 
 app.listen(3000, () => {
     console.log("listening on port 3000");
 });
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+
+app.get("/", (req, res) => {  /*READ*/
+    branchesCollection.find().toArray()
+        .then(results => {
+           // console.log(results)
+            res.render('index.ejs',{branches: results})
+        })
+        .catch(error => console.error(error))
 });
 
-app.post("/branch", (req, res) =>{
-    console.log(req.body);
+
+app.post("/branches", (req, res) =>{ /*CREATE*/
+    branchesCollection.insertOne(req.body)
+        .then(result => {
+            //console.log(result);
+            res.redirect('/');
+        })
+        .catch(error => console.error(error));
+});
+
+
+app.put('/branches', (req,res) => {
+    
 })
+})
+.catch(error => console.error(error));
