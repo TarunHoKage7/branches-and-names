@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
+const PORT = 8000;
 
 //This line is in mongostr
 MongoClient.connect(connectionString, { useUnifiedTopology: true
@@ -17,7 +18,7 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log("listening on port 3000");
 });
 
