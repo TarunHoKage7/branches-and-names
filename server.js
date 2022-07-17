@@ -4,8 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
-//this line is in note.
-
+//This line is in mongostr
 MongoClient.connect(connectionString, { useUnifiedTopology: true
 })
 .then(client => {
@@ -43,8 +42,38 @@ app.post("/branches", (req, res) =>{ /*CREATE*/
 });
 
 
-app.put('/branches', (req,res) => {
-    
+app.put('/branches', (req,res) => { //update
+    branchesCollection.findOneAndUpdate(
+        {name: "null"},
+        {
+            $set: {
+                name: req.body.name,
+                branch: req.body.branch,
+            }
+        },
+        {
+            upsert: true
+        }
+    )
+    .then(result => {
+        console.log(result)
+        res.json('Success')
+    })
+    .catch(error => console.error(error))
 })
+
+
+    app.delete('/branches', (req,res) => {
+        branchesCollection.deleteOne(
+        {name: req.body.name }
+        )
+            .then(result => {
+                if(result.deletedCount === 0){
+                    return res.json("No null pairs to delete")
+                }
+                res.json("Deleted a null pair")
+            })
+            .catch(error => console.error(error))
+    })
 })
 .catch(error => console.error(error));

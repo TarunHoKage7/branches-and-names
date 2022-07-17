@@ -1,17 +1,42 @@
- <!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <title>Names and their branches app</title>
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
-        <h1>May Node and Express be with you.</h1>
+        <h1 data-position="header">May Node and Express be with you.</h1>
+
+        <section data-position="add-quote">
+                <h2>Add Branch</h2>
+        
         <form action="/branches" method="POST">
             <input type="text" placeholder="name" name="name" />
             <input type="text" placeholder="branch" name="branch" />
             <button type="submit">Submit</button>
         </form>
+        </section>
+
+        <section data-position="update-quote">
+        <div>
+            <h2>New Student invades!</h2>
+            <p>Replace the first entry of the given student</p>
+            <button id="update-button">Replace the null-null value</button>
+        </div>
+        </section>
+
+        <section data-position="delete-quote">
+        <div>
+            <h2>Remove null</h2>
+            <p>Remove one null pair. Does nothing if there are no null pairs.</p>
+            <button id="delete-button">Delete null pair</button>
+            <div id="message"></div>
+        </div>
+        </section>
+
+
+        <section data-position="quotes">
         <h2> branches </h2>
 
         <ul class="branches">
@@ -22,12 +47,7 @@
                 </li>
            <% } %>
         </ul>
-
-        <div>
-            <h2>Darth Vadar invades!</h2>
-            <p>Replace the first entry of the given student</p>
-            <button id="update-button">Replace the key-value(name-branch) pair</button>
-        </div>
+        </section>
         <script src="/main.js"></script>
     </body>
 </html>
