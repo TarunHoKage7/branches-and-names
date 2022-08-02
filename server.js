@@ -1,24 +1,27 @@
 console.log("May the node be with you");
 const express = require("express");
-const bodyParser = require("body-parser");
 const app = express();
+require('dotenv').config();
 const MongoClient = require("mongodb").MongoClient;
 const PORT = 8000;
 
-//This line is in mongostr
-MongoClient.connect(connectionString, { useUnifiedTopology: true
+let dbConnectionStr = process.env.connectionString;
+let dbName = 'branches-and-names';
+
+MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true
 })
 .then(client => {
-console.log('Connected to Database');
-const db = client.db('branches-and-names');
+console.log(`Connected to ${dbName} Database`);
+const db = client.db(dbName);
 const branchesCollection = db.collection("branches");
 app.set('view engine','ejs');
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'))
-app.use(bodyParser.json())
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
 
 
 app.listen(process.env.PORT || PORT, () => {
+    console.log(process.env.PORT);
     console.log("listening on port 3000");
 });
 
